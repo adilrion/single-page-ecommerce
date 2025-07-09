@@ -35,29 +35,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     handleSubmit,
     formState: { errors },
     reset,
-    setFocus,
   } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
   });
-
-  // Handle escape key
-  React.useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isOpen && !isSubmitting) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      // Focus the first input field when modal opens
-      setTimeout(() => setFocus('name'), 100);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, isSubmitting, onClose, setFocus]);
 
   const onSubmit = async (data: CheckoutForm) => {
     try {
@@ -101,134 +81,128 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="checkout-modal-title"
-    >
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={!isSubmitting ? onClose : undefined}
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-gray-100 max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white rounded-t-2xl flex-shrink-0">
-          <h2 id="checkout-modal-title" className="text-xl font-semibold text-gray-900">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+          <h2 className="text-xl font-medium text-gray-900">
             {isSubmitted ? 'Order Confirmed!' : 'Complete Your Order'}
           </h2>
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="h-10 w-10 rounded-full hover:bg-gray-100 transition-colors shrink-0"
+            className="h-8 w-8 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Close modal"
-            disabled={isSubmitting}
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </Button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 pb-8">
+        <div className="p-6">
           {isSubmitted ? (
             <div className="text-center py-8">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Check className="h-10 w-10 text-green-600" />
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Check className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Thank you for your order!</h3>
-              <p className="text-base text-gray-600 mb-4">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Thank you for your order!</h3>
+              <p className="text-sm text-gray-600 mb-3">
                 Order #{orderNumber}
               </p>
-              <p className="text-3xl font-bold text-gray-900 mb-2">
+              <p className="text-2xl font-semibold text-gray-900">
                 ${totalPrice.toFixed(2)}
               </p>
-              <p className="text-sm text-gray-500 mt-6">
+              <p className="text-sm text-gray-500 mt-4">
                 You will receive a confirmation email shortly.
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                   {error}
                 </div>
               )}
 
-              <div className="space-y-5">
+              <div className="space-y-4">
                 <div>
-                  <Label htmlFor="name" className="text-sm font-semibold text-gray-800 mb-2 block">
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 mb-2 block">
                     Full Name *
                   </Label>
                   <Input
                     id="name"
                     {...register('name')}
-                    className="w-full border-gray-300 rounded-xl focus:border-gray-900 focus:ring-0 transition-all h-12 text-base"
+                    className="w-full border-gray-200 rounded-lg focus:border-gray-900 focus:ring-0 transition-colors"
                     placeholder="Enter your full name"
                     disabled={isSubmitting}
                   />
                   {errors.name && (
-                    <p className="text-sm text-red-600 mt-2">{errors.name.message}</p>
+                    <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-sm font-semibold text-gray-800 mb-2 block">
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-2 block">
                     Email Address *
                   </Label>
                   <Input
                     id="email"
                     type="email"
                     {...register('email')}
-                    className="w-full border-gray-300 rounded-xl focus:border-gray-900 focus:ring-0 transition-all h-12 text-base"
+                    className="w-full border-gray-200 rounded-lg focus:border-gray-900 focus:ring-0 transition-colors"
                     placeholder="Enter your email"
                     disabled={isSubmitting}
                   />
                   {errors.email && (
-                    <p className="text-sm text-red-600 mt-2">{errors.email.message}</p>
+                    <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="address" className="text-sm font-semibold text-gray-800 mb-2 block">
+                  <Label htmlFor="address" className="text-sm font-medium text-gray-700 mb-2 block">
                     Shipping Address *
                   </Label>
                   <Textarea
                     id="address"
                     {...register('address')}
-                    className="w-full border-gray-300 rounded-xl focus:border-gray-900 focus:ring-0 transition-all resize-none text-base"
+                    className="w-full border-gray-200 rounded-lg focus:border-gray-900 focus:ring-0 transition-colors resize-none"
                     placeholder="Enter your complete address"
                     rows={3}
                     disabled={isSubmitting}
                   />
                   {errors.address && (
-                    <p className="text-sm text-red-600 mt-2">{errors.address.message}</p>
+                    <p className="text-sm text-red-600 mt-1">{errors.address.message}</p>
                   )}
                 </div>
               </div>
 
               {/* Order Summary */}
-              <div className="bg-gray-50 rounded-xl p-5 space-y-4">
-                <h4 className="font-semibold text-gray-900 text-center">Order Summary</h4>
-                <div className="space-y-3">
+              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                <h4 className="font-medium text-gray-900">Order Summary</h4>
+                <div className="space-y-2">
                   {state.items.map((item) => (
-                    <div key={item.product._id} className="flex justify-between items-center text-sm">
-                      <span className="text-gray-700 flex-1">
+                    <div key={item.product._id} className="flex justify-between text-sm">
+                      <span className="text-gray-600">
                         {item.product.name} × {item.quantity}
                       </span>
-                      <span className="font-semibold text-gray-900 ml-4">
+                      <span className="font-medium text-gray-900">
                         ${(item.product.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
                   ))}
                 </div>
-                <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
-                  <span className="font-semibold text-gray-900 text-lg">Total</span>
-                  <span className="text-2xl font-bold text-gray-900">
+                <div className="border-t border-gray-200 pt-3 flex justify-between items-center">
+                  <span className="font-medium text-gray-900">Total</span>
+                  <span className="text-xl font-semibold text-gray-900">
                     ${totalPrice.toFixed(2)}
                   </span>
                 </div>
@@ -236,16 +210,16 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
               <Button
                 type="submit"
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white rounded-xl py-4 text-lg font-semibold transition-all disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white rounded-lg py-3 font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 disabled={isSubmitting || state.items.length === 0}
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Processing Order...</span>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Processing...</span>
                   </div>
                 ) : (
-                  `Place Order • $${totalPrice.toFixed(2)}`
+                  'Place Order'
                 )}
               </Button>
             </form>

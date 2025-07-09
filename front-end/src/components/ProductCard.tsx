@@ -19,46 +19,56 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <Link to={`/product/${product._id}`} className="block">
-      <div className="w-full max-w-[200px] mx-auto group">
-        <div className="bg-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-sm">
-          <div className="aspect-square bg-gray-50 overflow-hidden relative">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <Button
-              size="icon"
-              className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white text-black shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              onClick={handleAddToCart}
-              disabled={product.stock === 0}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-            {product.stock === 0 && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <span className="text-white text-sm font-medium">Out of Stock</span>
-              </div>
-            )}
-          </div>
+    <Link to={`/product/${product._id}`} className="block group">
+      <div className="w-full">
+        {/* Image Container */}
+        <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative mb-3">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
 
-          <div className="p-4 space-y-2">
-            <h3 className="font-light text-sm text-gray-900 line-clamp-2 min-h-[2.5rem]">
-              {product.name}
-            </h3>
-            <p className="text-sm font-medium text-black">
-              ${product.price.toFixed(2)}
-            </p>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
-              {product.category}
-            </p>
-            {product.featured && (
-              <span className="inline-block bg-black text-white text-xs px-2 py-1 rounded-full">
+          {/* Add to Cart Button */}
+          <Button
+            size="icon"
+            className="absolute top-3 right-3 w-8 h-8 bg-white/95 hover:bg-white text-gray-900 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 rounded-full border-0"
+            onClick={handleAddToCart}
+            disabled={product.stock === 0}
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+
+          {/* Out of Stock Overlay */}
+          {product.stock === 0 && (
+            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+              <span className="text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
+                Out of Stock
+              </span>
+            </div>
+          )}
+
+          {/* Featured Badge */}
+          {product.featured && (
+            <div className="absolute top-3 left-3">
+              <span className="bg-gray-900 text-white text-xs px-2 py-1 rounded-full font-medium">
                 Featured
               </span>
-            )}
-          </div>
+            </div>
+          )}
+        </div>
+
+        {/* Product Info */}
+        <div className="space-y-1">
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-5">
+            {product.name}
+          </h3>
+          <p className="text-xs text-gray-500 capitalize">
+            {product.category}
+          </p>
+          <p className="text-sm font-semibold text-gray-900">
+            ${product.price.toFixed(2)}
+          </p>
         </div>
       </div>
     </Link>
