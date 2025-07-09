@@ -1,0 +1,8 @@
+{
+    "customerInfo": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "address": "123 Main St, City, Country"
+    },
+    "cartId": "686d6aa2f5b1367592542cad"
+}
