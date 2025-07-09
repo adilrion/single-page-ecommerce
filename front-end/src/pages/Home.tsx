@@ -22,9 +22,9 @@ const Home: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white ">
         <HeroSlider />
-        <div className="container mx-auto px-6 py-16">
+        <div className=" mx-auto px-6 py-16">
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
           </div>
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
 
       {/* Products Section */}
       <section className="w-full py-16 bg-white">
-        <div className="container mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
 
           {/* Search and Filter */}
           <div className="flex flex-col md:flex-row gap-6 mb-12 max-w-4xl mx-auto">
-            <div className="relative flex-1 max-w-md">
+            <div className="relative flex-1 max-w-lg">
               <Search className="absolute left-4 top-3 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search products..."
@@ -86,8 +86,8 @@ const Home: React.FC = () => {
                 variant={selectedCategory === null ? 'default' : 'ghost'}
                 onClick={() => setSelectedCategory(null)}
                 className={`rounded-full px-6 py-2 transition-all ${selectedCategory === null
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  ? 'bg-gray-900 text-white hover:bg-gray-800'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}
               >
                 All
@@ -98,8 +98,8 @@ const Home: React.FC = () => {
                   variant={selectedCategory === category ? 'default' : 'ghost'}
                   onClick={() => setSelectedCategory(category)}
                   className={`rounded-full px-6 py-2 transition-all capitalize ${selectedCategory === category
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'bg-gray-900 text-white hover:bg-gray-800'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                     }`}
                 >
                   {category}

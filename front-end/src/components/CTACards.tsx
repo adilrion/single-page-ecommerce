@@ -4,8 +4,8 @@ import React from 'react';
 
 const CTACards: React.FC = () => {
   return (
-    <section className="w-full py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
+    <section className="w-full py-20 ">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Main CTA Hero */}
         <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 md:p-16 text-white mb-16 relative overflow-hidden">
           {/* Background decoration */}
@@ -33,7 +33,7 @@ const CTACards: React.FC = () => {
               </Button>
               <Button
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 rounded-full px-8 py-4 text-lg font-medium transition-all"
+                className="border-white/30 text-gray-50 bg-white/10 rounded-full px-8 py-4 text-lg font-medium transition-all"
               >
                 View Categories
               </Button>

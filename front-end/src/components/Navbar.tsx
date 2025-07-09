@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/button';
+import { Home, ShoppingBag } from 'lucide-react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useCart } from '../context/CartContext';
 
 const Navbar: React.FC = () => {
@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-4 max-w-7xl">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
@@ -23,9 +23,8 @@ const Navbar: React.FC = () => {
             <Link to="/">
               <Button
                 variant="ghost"
-                className={`flex items-center space-x-2 font-light ${
-                  location.pathname === '/' ? 'text-black' : 'text-gray-600'
-                }`}
+                className={`flex items-center space-x-2 font-light ${location.pathname === '/' ? 'text-black' : 'text-gray-600'
+                  }`}
               >
                 <Home className="h-4 w-4" />
                 <span>Home</span>
