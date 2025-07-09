@@ -1,3 +1,4 @@
+import { Router } from "express";
 import {
     createOrder,
     getAllOrders,
@@ -5,9 +6,8 @@ import {
     getOrderByNumber,
     getOrdersByEmail,
     updateOrderStatus,
-} from "@controllers/orderController";
-import { validateOrder } from "@middleware/validation";
-import { Router } from "express";
+} from "../controllers/orderController";
+import { validateOrder } from "../middleware/validation";
 
 const router = Router();
 

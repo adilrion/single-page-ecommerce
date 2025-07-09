@@ -1,6 +1,6 @@
-import { createError } from "@middleware/errorHandler";
-import { Product } from "@models/Product";
-import { CreateProductDto, IProduct, PaginationQuery } from "@types";
+import { createError } from "../middleware/errorHandler";
+import { Product } from "../models/Product";
+import { CreateProductDto, IProduct, PaginationQuery } from "../types";
 
 export class ProductService {
     async getAllProducts(query: PaginationQuery) {

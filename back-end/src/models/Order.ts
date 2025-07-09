@@ -1,5 +1,5 @@
-import { ICustomerInfo, IOrder, IOrderItem } from "@types";
 import mongoose, { Schema } from "mongoose";
+import { ICustomerInfo, IOrder, IOrderItem } from "../types";
 
 const customerInfoSchema = new Schema<ICustomerInfo>(
     {

@@ -1,12 +1,12 @@
+import { Router } from "express";
 import {
     addToCart,
     clearCart,
     getCart,
     removeFromCart,
     updateCartItem,
-} from "@controllers/cartController";
-import { validateCart } from "@middleware/validation";
-import { Router } from "express";
+} from "../controllers/cartController";
+import { validateCart } from "../middleware/validation";
 
 const router = Router();
 

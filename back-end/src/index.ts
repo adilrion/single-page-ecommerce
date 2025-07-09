@@ -6,15 +6,15 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import config from "@config/config";
-import { connectDB } from "@config/database";
-import { errorHandler } from "@middleware/errorHandler";
-import { notFound } from "@middleware/notFound";
+import { connectDB } from "./config/database";
+import { errorHandler } from "./middleware/errorHandler";
+import { notFound } from "./middleware/notFound";
 
 // Routes
-import cartRoutes from "@routes/cartRoutes";
-import orderRoutes from "@routes/orderRoutes";
-import productRoutes from "@routes/productRoutes";
+import config from "./config/config";
+import cartRoutes from "./routes/cartRoutes";
+import orderRoutes from "./routes/orderRoutes";
+import productRoutes from "./routes/productRoutes";
 
 const app = express();
 
@@ -36,14 +36,14 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // CORS configuration
-app.use(
-    cors({
-        origin: config.allowedOrigins,
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
+// app.use(
+//     cors({
+//         origin: config.allowedOrigins,
+//         credentials: true,
+//         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+//         allowedHeaders: ["Content-Type", "Authorization"],
+//     })
+// );
 
 // Body parsing middleware
 app.use(express.json({ limit: "10mb" }));

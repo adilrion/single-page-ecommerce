@@ -1,5 +1,5 @@
-import { ICart, ICartItem } from "@types";
 import mongoose, { Schema } from "mongoose";
+import { ICart, ICartItem } from "../types";
 
 const cartItemSchema = new Schema<ICartItem>(
     {

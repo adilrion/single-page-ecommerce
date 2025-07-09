@@ -1,8 +1,8 @@
-import { createError } from "@middleware/errorHandler";
-import { Cart } from "@models/Cart";
-import { Order } from "@models/Order";
-import { Product } from "@models/Product";
-import { CreateOrderDto, CreateOrderFromFrontendDto, IOrder } from "@types";
+import { createError } from "../middleware/errorHandler";
+import { Cart } from "../models/Cart";
+import { Order } from "../models/Order";
+import { Product } from "../models/Product";
+import { CreateOrderDto, CreateOrderFromFrontendDto, IOrder } from "../types";
 
 export class OrderService {
     async createOrder(orderData: CreateOrderDto): Promise<IOrder> {

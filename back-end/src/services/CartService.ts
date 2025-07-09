@@ -1,8 +1,8 @@
-import { createError } from "@middleware/errorHandler";
-import { Cart } from "@models/Cart";
-import { Product } from "@models/Product";
-import { AddToCartDto, ICart, UpdateCartItemDto } from "@types";
 import { v4 as uuidv4 } from "uuid";
+import { createError } from "../middleware/errorHandler";
+import { Cart } from "../models/Cart";
+import { Product } from "../models/Product";
+import { AddToCartDto, ICart, UpdateCartItemDto } from "../types";
 
 export class CartService {
     async getOrCreateCart(sessionId: string): Promise<ICart> {

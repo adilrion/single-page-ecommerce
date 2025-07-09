@@ -1,5 +1,5 @@
-import { CartService } from "@services/CartService";
 import { Request, Response } from "express";
+import { CartService } from "../services/CartService";
 
 const cartService = new CartService();
 

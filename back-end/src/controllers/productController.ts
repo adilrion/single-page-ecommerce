@@ -1,6 +1,6 @@
-import { ProductService } from "@services/ProductService";
-import { PaginationQuery } from "@types";
 import { Request, Response } from "express";
+import { ProductService } from "../services/ProductService";
+import { PaginationQuery } from "../types";
 
 const productService = new ProductService();
 
