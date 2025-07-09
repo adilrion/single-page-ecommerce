@@ -53,12 +53,12 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="w-full min-h-screen bg-white">
       {/* Hero Slider */}
       <HeroSlider />
 
       {/* Products Section */}
-      <section className="py-16 bg-white">
+      <section className="w-full py-16 bg-white">
         <div className="container mx-auto px-6">
           {/* Section Header */}
           <div className="text-center mb-12">

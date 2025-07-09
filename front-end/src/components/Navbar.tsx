@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
+    <nav className="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3">

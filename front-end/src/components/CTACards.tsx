@@ -4,7 +4,7 @@ import React from 'react';
 
 const CTACards: React.FC = () => {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="w-full py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         {/* Main CTA Hero */}
         <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 md:p-16 text-white mb-16 relative overflow-hidden">
@@ -12,7 +12,7 @@ const CTACards: React.FC = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
 
-          <div className="relative max-w-3xl">
+          <div className="relative max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <Star className="h-4 w-4 text-yellow-400" />
               <span className="text-sm font-medium">Premium Quality Products</span>
@@ -20,11 +20,11 @@ const CTACards: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               Discover Amazing Products Made for You
             </h2>
-            <p className="text-gray-300 text-xl mb-10 leading-relaxed max-w-2xl">
+            <p className="text-gray-300 text-xl mb-10 leading-relaxed max-w-3xl mx-auto">
               Shop from our carefully curated collection of premium products.
               From cutting-edge electronics to lifestyle essentials, find everything you need.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 className="bg-white text-gray-900 hover:bg-gray-100 rounded-full px-8 py-4 text-lg font-semibold transition-all shadow-lg hover:shadow-xl group"
               >
@@ -121,13 +121,13 @@ const CTACards: React.FC = () => {
             Get notified about new products, exclusive offers, and special discounts.
             Join our newsletter and never miss out.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto items-stretch">
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-gray-900 focus:ring-0 transition-all text-base"
+              className="flex-1 px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-gray-900 focus:ring-0 transition-all text-base h-14"
             />
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl">
+            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl h-14 flex-shrink-0">
               Subscribe
             </Button>
           </div>
