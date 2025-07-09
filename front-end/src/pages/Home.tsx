@@ -1,22 +1,55 @@
-import React from 'react';
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
+import React from 'react';
 import HeroSlider from '../components/HeroSlider';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+import { useProducts } from '../hooks/useProducts';
 
 const Home: React.FC = () => {
+  const { products, loading, error } = useProducts();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
 
   const categories = Array.from(new Set(products.map(p => p.category)));
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !selectedCategory || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <HeroSlider />
+        <div className="container mx-auto px-6 py-16">
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white">
+        <HeroSlider />
+        <div className="container mx-auto px-6 py-16">
+          <div className="text-center">
+            <p className="text-red-500 text-lg">Error loading products: {error}</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="mt-4"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -27,7 +60,7 @@ const Home: React.FC = () => {
       <section className="py-16">
         <div className="container mx-auto px-6">
           <div className="mb-12">
-            
+
             {/* Search and Filter */}
             <div className="flex flex-col md:flex-row gap-6 mb-12 max-w-4xl mx-auto">
               <div className="relative flex-1 max-w-md">
@@ -43,11 +76,10 @@ const Home: React.FC = () => {
                 <Button
                   variant={selectedCategory === null ? 'default' : 'ghost'}
                   onClick={() => setSelectedCategory(null)}
-                  className={`rounded-full font-light ${
-                    selectedCategory === null 
-                      ? 'bg-black text-white hover:bg-gray-800' 
+                  className={`rounded-full font-light ${selectedCategory === null
+                      ? 'bg-black text-white hover:bg-gray-800'
                       : 'text-gray-600 hover:text-black'
-                  }`}
+                    }`}
                 >
                   All
                 </Button>
@@ -56,11 +88,10 @@ const Home: React.FC = () => {
                     key={category}
                     variant={selectedCategory === category ? 'default' : 'ghost'}
                     onClick={() => setSelectedCategory(category)}
-                    className={`rounded-full font-light ${
-                      selectedCategory === category 
-                        ? 'bg-black text-white hover:bg-gray-800' 
+                    className={`rounded-full font-light ${selectedCategory === category
+                        ? 'bg-black text-white hover:bg-gray-800'
                         : 'text-gray-600 hover:text-black'
-                    }`}
+                      }`}
                   >
                     {category}
                   </Button>
@@ -72,7 +103,7 @@ const Home: React.FC = () => {
           {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
 

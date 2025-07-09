@@ -80,6 +80,19 @@ export interface CreateOrderDto {
     cartId: string;
 }
 
+// Frontend order interface
+export interface CreateOrderFromFrontendDto {
+    name: string;
+    email: string;
+    address: string;
+    items: Array<{
+        productId: string;
+        quantity: number;
+        price: number;
+    }>;
+    totalAmount: number;
+}
+
 // API Response interfaces
 export interface ApiResponse<T = any> {
     success: boolean;

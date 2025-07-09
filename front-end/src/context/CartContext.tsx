@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useReducer } from 'react';
 import { CartItem, Product } from '../types/product';
 
 interface CartState {
@@ -16,13 +16,13 @@ type CartAction =
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
-    case 'ADD_ITEM':
-      const existingItem = state.items.find(item => item.product.id === action.payload.id);
+    case 'ADD_ITEM': {
+      const existingItem = state.items.find(item => item.product._id === action.payload._id);
       if (existingItem) {
         return {
           ...state,
           items: state.items.map(item =>
-            item.product.id === action.payload.id
+            item.product._id === action.payload._id
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
@@ -32,18 +32,19 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         ...state,
         items: [...state.items, { product: action.payload, quantity: 1 }],
       };
+    }
 
     case 'REMOVE_ITEM':
       return {
         ...state,
-        items: state.items.filter(item => item.product.id !== action.payload),
+        items: state.items.filter(item => item.product._id !== action.payload),
       };
 
     case 'UPDATE_QUANTITY':
       return {
         ...state,
         items: state.items.map(item =>
-          item.product.id === action.payload.id
+          item.product._id === action.payload.id
             ? { ...item, quantity: action.payload.quantity }
             : item
         ),

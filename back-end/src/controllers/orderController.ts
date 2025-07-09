@@ -7,13 +7,23 @@ export const createOrder = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const order = await orderService.createOrder(req.body);
-
-    res.status(201).json({
-        success: true,
-        message: "Order created successfully",
-        data: order,
-    });
+    // Check if this is a frontend order (has name, email, address directly)
+    if (req.body.name && req.body.email && req.body.address && req.body.items) {
+        const order = await orderService.createOrderFromFrontend(req.body);
+        res.status(201).json({
+            success: true,
+            message: "Order created successfully",
+            data: order,
+        });
+    } else {
+        // Original order creation with cart
+        const order = await orderService.createOrder(req.body);
+        res.status(201).json({
+            success: true,
+            message: "Order created successfully",
+            data: order,
+        });
+    }
 };
 
 export const getOrder = async (req: Request, res: Response): Promise<void> => {

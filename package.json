@@ -1,0 +1,24 @@
+{
+    "name": "ecommerce-spa",
+    "version": "1.0.0",
+    "description": "E-commerce Single Page Application with React frontend and Node.js backend",
+    "scripts": {
+        "dev:backend": "cd back-end && npm run dev",
+        "dev:frontend": "cd front-end && npm run dev",
+        "build:backend": "cd back-end && npm run build",
+        "build:frontend": "cd front-end && npm run build",
+        "seed": "cd back-end && npm run seed",
+        "install:all": "npm run install:backend && npm run install:frontend",
+        "install:backend": "cd back-end && npm install",
+        "install:frontend": "cd front-end && npm install"
+    },
+    "keywords": [
+        "ecommerce",
+        "react",
+        "nodejs",
+        "typescript",
+        "spa"
+    ],
+    "author": "Your Name",
+    "license": "MIT"
+}

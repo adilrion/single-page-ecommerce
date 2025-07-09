@@ -22,6 +22,7 @@ const config: Config = {
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
     allowedOrigins: process.env.ALLOWED_ORIGINS?.split(",") || [
         "http://localhost:3000",
+        "http://localhost:5173",
     ],
     rateLimitWindowMs: parseInt(
         process.env.RATE_LIMIT_WINDOW_MS || "900000",

@@ -1,13 +1,14 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Check, X } from 'lucide-react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { useCart } from '../context/CartContext';
+import { orderAPI } from '../services/api';
 
 const checkoutSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -23,8 +24,11 @@ interface CheckoutModalProps {
 }
 
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
-  const { clearCart, totalPrice } = useCart();
+  const { state, clearCart, totalPrice } = useCart();
   const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [orderNumber, setOrderNumber] = React.useState<string>('');
+  const [error, setError] = React.useState<string>('');
 
   const {
     register,
@@ -35,17 +39,43 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     resolver: zodResolver(checkoutSchema),
   });
 
-  const onSubmit = (data: CheckoutForm) => {
-    console.log('Order submitted:', data);
-    setIsSubmitted(true);
-    clearCart();
-    
-    // Reset form and close modal after 2 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      reset();
-      onClose();
-    }, 2000);
+  const onSubmit = async (data: CheckoutForm) => {
+    try {
+      setIsSubmitting(true);
+      setError('');
+
+      // Prepare order data
+      const orderData = {
+        name: data.name,
+        email: data.email,
+        address: data.address,
+        items: state.items.map(item => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+          price: item.product.price
+        })),
+        totalAmount: totalPrice
+      };
+
+      // Submit order to backend
+      const order = await orderAPI.createOrder(orderData);
+      setOrderNumber(order.orderNumber);
+      setIsSubmitted(true);
+      clearCart();
+
+      // Reset form and close modal after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setOrderNumber('');
+        reset();
+        onClose();
+      }, 3000);
+    } catch (err) {
+      console.error('Error creating order:', err);
+      setError(err instanceof Error ? err.message : 'Failed to create order');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -70,12 +100,21 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 <Check className="h-8 w-8 text-green-600" />
               </div>
               <p className="text-lg font-light mb-2 text-gray-900">Thank you for your order!</p>
+              <p className="text-gray-600 font-light mb-2">
+                Order Number: #{orderNumber}
+              </p>
               <p className="text-gray-600 font-light">
                 Total: ${totalPrice.toFixed(2)}
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+                  {error}
+                </div>
+              )}
+
               <div>
                 <Label htmlFor="name" className="text-sm font-light text-gray-700">Full Name</Label>
                 <Input
@@ -83,6 +122,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                   {...register('name')}
                   className="mt-2 border-gray-200 focus:border-gray-400"
                   placeholder="John Doe"
+                  disabled={isSubmitting}
                 />
                 {errors.name && (
                   <p className="text-sm text-red-500 mt-1 font-light">{errors.name.message}</p>
@@ -97,6 +137,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                   {...register('email')}
                   className="mt-2 border-gray-200 focus:border-gray-400"
                   placeholder="john@example.com"
+                  disabled={isSubmitting}
                 />
                 {errors.email && (
                   <p className="text-sm text-red-500 mt-1 font-light">{errors.email.message}</p>
@@ -111,6 +152,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                   className="mt-2 border-gray-200 focus:border-gray-400"
                   placeholder="123 Main St, City, State, ZIP"
                   rows={3}
+                  disabled={isSubmitting}
                 />
                 {errors.address && (
                   <p className="text-sm text-red-500 mt-1 font-light">{errors.address.message}</p>
@@ -122,8 +164,12 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                   <span className="font-light text-gray-600">Total</span>
                   <span className="font-medium text-lg text-black">${totalPrice.toFixed(2)}</span>
                 </div>
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white rounded-full font-light">
-                  Place Order
+                <Button
+                  type="submit"
+                  className="w-full bg-black hover:bg-gray-800 text-white rounded-full font-light disabled:bg-gray-400"
+                  disabled={isSubmitting || state.items.length === 0}
+                >
+                  {isSubmitting ? 'Processing...' : 'Place Order'}
                 </Button>
               </div>
             </form>

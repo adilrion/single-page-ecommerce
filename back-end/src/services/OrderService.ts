@@ -2,7 +2,7 @@ import { createError } from "@middleware/errorHandler";
 import { Cart } from "@models/Cart";
 import { Order } from "@models/Order";
 import { Product } from "@models/Product";
-import { CreateOrderDto, IOrder } from "@types";
+import { CreateOrderDto, CreateOrderFromFrontendDto, IOrder } from "@types";
 
 export class OrderService {
     async createOrder(orderData: CreateOrderDto): Promise<IOrder> {
@@ -65,6 +65,77 @@ export class OrderService {
         await cart.save();
 
         return order.toJSON() as IOrder;
+    }
+
+    async createOrderFromFrontend(
+        orderData: CreateOrderFromFrontendDto
+    ): Promise<IOrder> {
+        const { name, email, address, items, totalAmount } = orderData;
+
+        // Verify all products exist and have sufficient stock
+        const orderItems = [];
+        let calculatedTotal = 0;
+
+        for (const item of items) {
+            const product = await Product.findById(item.productId);
+
+            if (!product) {
+                throw createError(
+                    `Product with ID ${item.productId} not found`,
+                    404
+                );
+            }
+
+            if (product.stock < item.quantity) {
+                throw createError(
+                    `Insufficient stock for product: ${product.name}`,
+                    400
+                );
+            }
+
+            const itemTotal = item.price * item.quantity;
+
+            orderItems.push({
+                productId: item.productId,
+                productName: product.name,
+                quantity: item.quantity,
+                price: item.price,
+                totalPrice: itemTotal,
+            });
+
+            calculatedTotal += itemTotal;
+
+            // Update product stock
+            product.stock -= item.quantity;
+            await product.save();
+        }
+
+        // Verify total amount
+        if (Math.abs(calculatedTotal - totalAmount) > 0.01) {
+            throw createError("Total amount mismatch", 400);
+        }
+
+        // Generate order number
+        const orderNumber = `ORD-${Date.now()}-${Math.random()
+            .toString(36)
+            .substr(2, 9)
+            .toUpperCase()}`;
+
+        // Create order
+        const order = new Order({
+            orderNumber,
+            customerInfo: {
+                name,
+                email,
+                address,
+            },
+            items: orderItems,
+            totalAmount: calculatedTotal,
+            status: "pending",
+        });
+
+        const savedOrder = await order.save();
+        return savedOrder;
     }
 
     async getOrderById(orderId: string): Promise<IOrder> {

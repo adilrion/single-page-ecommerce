@@ -65,12 +65,20 @@ export const validateOrder = (
     next: NextFunction
 ): void => {
     const schema = Joi.object({
-        customerInfo: Joi.object({
-            name: Joi.string().required().trim(),
-            email: Joi.string().required().email(),
-            address: Joi.string().required().trim(),
-        }).required(),
-        cartId: Joi.string().required(),
+        name: Joi.string().required().trim(),
+        email: Joi.string().required().email(),
+        address: Joi.string().required().trim(),
+        items: Joi.array()
+            .items(
+                Joi.object({
+                    productId: Joi.string().required(),
+                    quantity: Joi.number().required().min(1),
+                    price: Joi.number().required().min(0),
+                })
+            )
+            .required()
+            .min(1),
+        totalAmount: Joi.number().required().min(0),
     });
 
     const { error } = schema.validate(req.body);

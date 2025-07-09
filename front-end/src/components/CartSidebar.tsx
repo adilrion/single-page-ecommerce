@@ -1,6 +1,6 @@
-import React from 'react';
-import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Minus, Plus, ShoppingBag, X } from 'lucide-react';
+import React from 'react';
 import { useCart } from '../context/CartContext';
 import CheckoutModal from './CheckoutModal';
 
@@ -32,18 +32,18 @@ const CartSidebar: React.FC = () => {
           ) : (
             <div className="space-y-6">
               {state.items.map((item) => (
-                <div key={item.product.id} className="group">
+                <div key={item.product._id} className="group">
                   <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                     <div className="w-14 h-14 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
                       <img
                         src={item.product.image}
-                        alt={item.product.title}
+                        alt={item.product.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-light text-sm text-gray-900 line-clamp-1 mb-1">
-                        {item.product.title}
+                        {item.product.name}
                       </h3>
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-black">
@@ -54,7 +54,7 @@ const CartSidebar: React.FC = () => {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7 hover:bg-gray-100 rounded-full"
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -63,7 +63,7 @@ const CartSidebar: React.FC = () => {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7 hover:bg-gray-100 rounded-full"
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
