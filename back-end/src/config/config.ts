@@ -23,6 +23,7 @@ const config: Config = {
     allowedOrigins: process.env.ALLOWED_ORIGINS?.split(",") || [
         "http://localhost:3000",
         "http://localhost:5173",
+        "https://ecommerce-frontend-eight-alpha.vercel.app",
     ],
     rateLimitWindowMs: parseInt(
         process.env.RATE_LIMIT_WINDOW_MS || "900000",

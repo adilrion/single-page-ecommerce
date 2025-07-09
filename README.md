@@ -8,8 +8,8 @@ This project fulfills the requirements for a small e-commerce web application th
 
 ## 🚀 Live Demo
 
--   **Frontend**: [Add your deployment URL here]
--   **Backend**: [Add your backend API URL here]
+-   **Frontend**: [[](https://ecommerce-frontend-eight-alpha.vercel.app/)]
+-   **Backend**: [[](https://back-end-adilrion.vercel.app/)]
 
 ## 🛠 Tech Stack
 
@@ -257,9 +257,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Your Name**
 
--   GitHub: [@your-username](https://github.com/your-username)
--   LinkedIn: [your-profile](https://linkedin.com/in/your-profile)
--   Email: your.email@example.com
+-   GitHub: [@your-username](https://github.com/adilrion)
+-   LinkedIn: [your-profile](https://linkedin.com/in/adilrion)
+-   Email: adilmahmoudrion@gmail.com
 
 ## 🙏 Acknowledgments
 
